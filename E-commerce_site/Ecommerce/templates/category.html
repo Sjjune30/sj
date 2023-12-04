@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div>
+        <div>
+            {% if category %}
+            <p><a href="{% url 'EcomApp:allProdCat' %}">Our Products</a></p>
+        </div>
+    </div>
+            {% endif %}
+    <div>
+        {% if category %}
+        <img class="cat-img" src="{{category.image.url}}" alt="{{category.name}}">
+    </div><br>
+    <div>
+        <h1>{{category.name}}</h1>
+        <p>{{category.description}}</p>
+    </div>
+        {% else %}
+
+    <div>
+        <div>
+            <div>
+                <img src="{% static 'img/banner2.png.png' %}" alt="banner image" height="450" width="1300">
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h1>Our Product Collection</h1>
+        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet.", comes from a line in section 1.10.32.</p>
+    </div>
+{% endif %}
+<div class="container">
+    <div class="row mx_auto">
+        {% for product in products.object_list %}
+        <div class="col-9 col-sm-12 col-md-4 col-lg-3">
+           <div class="my_bottom_margin">
+               <div class="card" style="width: 16rem;">
+                  <a href="{{product.get_url}}"><img class="card-img-top" src="{{product.image.url}}" alt="{{product.name}}" height="250" width="200"> </a>
+                   <div class="card-body">
+                   <h4 class="card-title" style="text-align:center;">{{product.name}}</h4>
+                   <p class="card-text" style="text-align:center;">INR :{{product.price}}/-</p>
+                  </div>
+               </div>
+           </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mx-auto">
+        {% if products.paginator.num_pages > 1 %}
+        <hr>
+        <div class="text-center">
+            {% for pg in products.paginator.page_range %}
+            <a href="?page= {{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div><br>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
